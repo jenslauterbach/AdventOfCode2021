@@ -15,24 +15,6 @@ func main() {
 }
 
 func part1(lines []line) int {
-	findMaxima := func(lines []line) (maxX, maxY int) {
-		for _, l := range lines {
-			if l.start.x > maxX {
-				maxX = l.start.x
-			}
-			if l.end.x > maxX {
-				maxX = l.end.x
-			}
-			if l.start.y > maxY {
-				maxY = l.start.y
-			}
-			if l.end.y > maxY {
-				maxY = l.end.y
-			}
-		}
-		return
-	}
-
 	maxX, maxY := findMaxima(lines)
 	board := make([][]int, maxX+1)
 	for x := range board {
@@ -69,38 +51,13 @@ func part1(lines []line) int {
 		}
 	}
 
-	var overlappingPoints int
-	for x := range board {
-		for y := range board[x] {
-			if board[x][y] > 1 {
-				overlappingPoints++
-			}
-		}
-	}
-
+	overlappingPoints := numberOfOverlappingPoints(board)
 	fmt.Printf("overlapping points: %d\n", overlappingPoints)
+
 	return overlappingPoints
 }
 
 func part2(lines []line) int {
-	findMaxima := func(lines []line) (maxX, maxY int) {
-		for _, l := range lines {
-			if l.start.x > maxX {
-				maxX = l.start.x
-			}
-			if l.end.x > maxX {
-				maxX = l.end.x
-			}
-			if l.start.y > maxY {
-				maxY = l.start.y
-			}
-			if l.end.y > maxY {
-				maxY = l.end.y
-			}
-		}
-		return
-	}
-
 	maxX, maxY := findMaxima(lines)
 	board := make([][]int, maxX+1)
 	for x := range board {
@@ -171,16 +128,9 @@ func part2(lines []line) int {
 		}
 	}
 
-	var overlappingPoints int
-	for x := range board {
-		for y := range board[x] {
-			if board[x][y] > 1 {
-				overlappingPoints++
-			}
-		}
-	}
-
+	overlappingPoints := numberOfOverlappingPoints(board)
 	fmt.Printf("overlapping points: %d\n", overlappingPoints)
+
 	return overlappingPoints
 }
 
@@ -252,4 +202,35 @@ func loadLines() []line {
 	}
 
 	return lines
+}
+
+func findMaxima(lines []line) (maxX, maxY int) {
+	for _, l := range lines {
+		if l.start.x > maxX {
+			maxX = l.start.x
+		}
+		if l.end.x > maxX {
+			maxX = l.end.x
+		}
+		if l.start.y > maxY {
+			maxY = l.start.y
+		}
+		if l.end.y > maxY {
+			maxY = l.end.y
+		}
+	}
+	return
+}
+
+func numberOfOverlappingPoints(board [][]int) int {
+	var overlappingPoints int
+	for x := range board {
+		for y := range board[x] {
+			if board[x][y] > 1 {
+				overlappingPoints++
+			}
+		}
+	}
+
+	return overlappingPoints
 }
